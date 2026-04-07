@@ -13,7 +13,7 @@ const Hero = () => {
     const current = roles[roleIndex];
 
     if (!isDeleting && displayed === current) {
-      timeoutRef.current = setTimeout(() => setIsDeleting(true), 3000);
+      timeoutRef.current = setTimeout(() => setIsDeleting(true), 300000);
       return;
     }
 
