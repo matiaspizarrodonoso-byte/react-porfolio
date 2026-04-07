@@ -128,21 +128,29 @@
 .hero-title {
   font-family: 'Syne', sans-serif;
   font-size: clamp(2.2rem, 5vw, 3.8rem);
-  font-weight: 800;
+  font-weight: 750;
   line-height: 1.1;
   margin-bottom: 0.8rem;
   letter-spacing: -0.02em;
+  line-height: 1;
 }
-
+.hero-title-wrapper {
+  height: 4.5rem;
+  display: flex;
+  align-items: center;
+}
 .typed-role {
   color: var(--accent-bright);
+  display: inline-block;
+  min-width: 210px; /* ajusta al contenido */
 }
 
 .cursor {
   display: inline-block;
   width: 3px;
   background: var(--accent-bright);
-  animation: blink 1s step-end infinite;
+  animation: blink 7s step-end infinite;
+  animation: blink 0.7s infinite;
   margin-left: 2px;
   vertical-align: baseline;
 }
