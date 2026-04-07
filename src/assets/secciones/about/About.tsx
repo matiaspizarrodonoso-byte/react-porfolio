@@ -1,6 +1,6 @@
 import "./About.css";
 
-const skills = ["React", "TypeScript", "Node.js", "Figma", "UI/UX", "Next.js", "Tailwind", "PostgreSQL"];
+const skills = ["React", "TypeScript", "Node.js", "SQL", "UI/UX", "Python", "Django", "Javascript"];
 
 const About = () => {
   return (
@@ -13,28 +13,29 @@ const About = () => {
       <div className="about-grid">
         <div className="about-text">
           <h2 className="section-title">
-            Crafting digital<br />
-            <span className="accent-text">experiences</span> that matter
+            EXPERIENCIA LABORAL<br />
+            <span className="accent-text">Contraloría General de la República </span> 
           </h2>
           <p className="about-body">
-            I bridge the gap between design and engineering, turning complex problems into elegant,
-            intuitive solutions. With a passion for pixel-perfect UI and clean code, I build
-            products people love to use.
+            Participé en la migración de portales institucionales a Liferay 7.4, realizando soporte 
+            y seguimiento de incidencias técnicas, además del desarrollo de componentes personalizados 
+            con Java, Bootstrap y CSS.
           </p>
           <p className="about-body">
-            When I'm not shipping features, I'm exploring new design systems, contributing to
-            open source, and pushing the boundaries of what's possible on the web.
+            Me encargué del registro y archivo de documentación técnica para asegurar la trazabilidad 
+            del proyecto, ejecuté pruebas funcionales en entornos multiplataforma y elaboré manuales 
+            y reportes técnicos para jefatura.
           </p>
         </div>
 
         <div className="about-stats">
           <div className="stat-card">
             <span className="stat-number">3+</span>
-            <span className="stat-label">Years Experience</span>
+            <span className="stat-label"> Meses experiencia</span>
           </div>
           <div className="stat-card">
-            <span className="stat-number">20+</span>
-            <span className="stat-label">Projects Shipped</span>
+            <span className="stat-number">4+</span>
+            <span className="stat-label">Proyectos</span>
           </div>
           <div className="stat-card">
             <span className="stat-number">∞</span>
@@ -44,7 +45,7 @@ const About = () => {
       </div>
 
       <div className="skills-section">
-        <p className="skills-label">Tech Stack</p>
+        <p className="skills-label">Herramientas y tecnologías</p>
         <div className="skills-grid">
           {skills.map((skill) => (
             <div key={skill} className="skill-pill">{skill}</div>

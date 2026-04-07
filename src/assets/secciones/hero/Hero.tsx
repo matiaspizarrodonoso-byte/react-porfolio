@@ -13,7 +13,7 @@ const Hero = () => {
     const current = roles[roleIndex];
 
     if (!isDeleting && displayed === current) {
-      timeoutRef.current = setTimeout(() => setIsDeleting(true), 2000);
+      timeoutRef.current = setTimeout(() => setIsDeleting(true), 3000);
       return;
     }
 
@@ -52,12 +52,12 @@ const Hero = () => {
           </div>
         </div>
         <div className="avatar-tagline">
-          <p className="tag-sub">A Designer who</p>
+          <p className="tag-sub">Ingeniero de software</p>
           <h2 className="tag-main">
-            Judges a book<br />by its{" "}
-            <span className="cover-word">cover<span className="cover-dots">...</span></span>
+            Un libro no se juzga<br />por su{" "}
+            <span className="cover-word">portada<span className="cover-dots">...</span></span>
           </h2>
-          <p className="tag-caption">Because if the cover does not impress you what else can?</p>
+          <p className="tag-caption">¿Porque si la portada no te impresiona, ¿qué otra cosa lo hará?</p>
         </div>
       </div>
 
@@ -67,15 +67,15 @@ const Hero = () => {
           Yo soy <span className="typed-role">{displayed}<span className="cursor">|</span></span>
         </h1>
         <p className="hero-subtitle">
-          Currently working at{" "}
+          En búsqueda de oportunidades{" "}
           <a href="#" className="company-link">
-            <span className="company-icon">💼</span> Meta
+            <span className="company-icon">👀</span> 
           </a>
         </p>
         <p className="hero-description">
-          A self-taught UI/UX designer, functioning in the industry for 3+ years now.
-          I make meaningful and delightful digital products that create an equilibrium
-          between user needs and business goals.
+            Ingeniero en Informática especializado en cloud computing y datos, con experiencia práctica en GCP y AWS.
+            He diseñado pipelines ETL con BigQuery y Dataflow, 
+            automatizando flujos de datos a gran escala usando Python y SQL.
         </p>
         <div className="hero-actions">
           <a href="#work" className="btn-primary">Ver Proyectos</a>
