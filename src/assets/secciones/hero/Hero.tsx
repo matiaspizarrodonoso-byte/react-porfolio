@@ -63,9 +63,9 @@ const Hero = () => {
 
       {/* Main text */}
       <div className="hero-content">
-        {/* <h1 className="hero-title">
+        <h1 className="hero-title">
           Yo soy <span className="typed-role">{displayed}<span className="cursor">|</span></span>
-        </h1> */}
+        </h1>
         <p className="hero-subtitle">
           En búsqueda de oportunidades{" "}
           <a href="#" className="company-link">

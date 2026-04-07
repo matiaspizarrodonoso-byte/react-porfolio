@@ -104,6 +104,7 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 1rem;
+  
 }
 
 .skills-grid {
@@ -122,6 +123,7 @@
   color: var(--text-secondary);
   transition: all 0.2s ease;
   cursor: default;
+  margin: auto;
 }
 
 .skill-pill:hover {

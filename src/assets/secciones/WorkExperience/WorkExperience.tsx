@@ -13,7 +13,7 @@ const projects: Project[] = [
   {
     id: 1,
     icon: "⭐",
-    title: "CIB on the Mobile",
+    title: "Ejemplo de un proyecto",
     description: "Take your client onboard seamlessly by our amazing tool of digital onboard process.",
     tags: ["React Native", "UX Design"],
     color: "#7c3aed",
@@ -21,7 +21,7 @@ const projects: Project[] = [
   {
     id: 2,
     icon: "🔮",
-    title: "Design System Kit",
+    title: "Proximamente un proyecto",
     description: "A comprehensive design system with 200+ components built for scalable products.",
     tags: ["Figma", "TypeScript"],
     color: "#ec4899",
@@ -29,7 +29,7 @@ const projects: Project[] = [
   {
     id: 3,
     icon: "🚀",
-    title: "Analytics Dashboard",
+    title: "Proximamente un proyecto",
     description: "Real-time data visualization platform built for enterprise-scale analytics.",
     tags: ["React", "D3.js"],
     color: "#3b82f6",
@@ -37,7 +37,7 @@ const projects: Project[] = [
   {
     id: 4,
     icon: "💡",
-    title: "AI Content Platform",
+    title: "Proximamente un proyecto",
     description: "Intelligent content generation tool powered by modern language models.",
     tags: ["Next.js", "OpenAI"],
     color: "#10b981",
@@ -68,7 +68,7 @@ const WorkExperience = () => {
                   <span key={tag} className="card-tag">{tag}</span>
                 ))}
               </div>
-              <button className="card-btn">Learn More →</button>
+              <button className="card-btn">Leer más →</button>
             </div>
           </div>
         ))}
