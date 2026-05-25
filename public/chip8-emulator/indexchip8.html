@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CHIP-8 Emulator</title>
+<style>
+body {
+  background: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  font-family: monospace;
+  color: #ccc;
+}
+
+/* ───────── TOP BAR ───────── */
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #111;
+  padding: 10px 14px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  width: fit-content;
+  box-shadow: 0 0 12px #0005;
+}
+
+button {
+  background: #222;
+  color: #A8FF78;
+  border: 1px solid #444;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+
+button:hover {
+  background: #333;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+#rom-select {
+  background: #222;
+  color: #A8FF78;
+  border: 1px solid #444;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+/* ───────── DISPLAY AREA ───────── */
+
+.content-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.display-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  max-width: 820px;
+  flex: 0 0 auto;
+}
+
+#drop-zone {
+  border: 2px dashed #444;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  background: #111;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+#drop-zone.dragging {
+  border-color: #A8FF78;
+  background: #1d1d1d;
+}
+
+canvas {
+  image-rendering: pixelated;
+  display: block;
+  box-shadow: 0 0 18px #0007;
+  border-radius: 4px;
+}
+
+/* ───────── KEY HINTS ───────── */
+
+.key-hint {
+  font-size: 13px;
+  color: #777;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.key-hint span {
+  color: #cfffa6;
+  background: #262626;
+  padding: 2px 6px;
+  border: 1px solid #444;
+  border-radius: 3px;
+  min-width: 20px;
+  display: inline-block;
+}
+
+/* ───────── DEBUGGER TOGGLE ───────── */
+
+#debugger-panel {
+  display: none;
+}
+
+body.debug-visible .content-area {
+  justify-content: center;
+}
+
+body.debug-visible .display-area {
+  max-width: none;
+}
+
+body.debug-visible #debugger-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #0d0d0d;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12px;
+  width: 250px;
+  max-height: 344px;
+  overflow-y: auto;
+  flex: 0 0 auto;
+  box-shadow: inset 0 0 0 1px #1a1a1a, 0 0 12px #0005;
+}
+
+body.debug-visible #drop-zone {
+  border-style: solid;
+  border-color: #333;
+  border-radius: 8px;
+  padding: 0;
+  background: #000;
+}
+
+body.debug-visible canvas {
+  border-radius: 7px;
+}
+
+/* Alinear altos: drop-zone + debugger ~ misma altura */
+body.debug-visible .display-area {
+  gap: 0;
+}
+
+body.debug-visible .key-hint {
+  padding: 8px 0 0 0;
+}
+
+/* Transición suave al toggle */
+body.debug-visible .content-area,
+.content-area {
+  transition: justify-content 0.2s;
+}
+
+#debugger-panel::-webkit-scrollbar { width: 5px; }
+#debugger-panel::-webkit-scrollbar-track { background: #0d0d0d; }
+#debugger-panel::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+#debugger-panel::-webkit-scrollbar-thumb:hover { background: #555; }
+
+.dbg-section {
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 7px;
+}
+
+.dbg-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.dbg-section-title {
+  color: #888;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.reg-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.reg-item {
+  display: flex;
+  justify-content: space-between;
+  background: #111;
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid #1a1a1a;
+}
+
+.reg-label { color: #555; font-size: 10px; }
+.reg-value { color: #A8FF78; font-weight: bold; font-size: 11px; }
+
+.spec-regs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  background: #111;
+  padding: 3px 6px;
+  text-align: center;
+  border-radius: 3px;
+  border: 1px solid #1a1a1a;
+}
+
+.spec-label { color: #555; font-size: 9px; }
+.spec-value { color: #FFB86C; font-weight: bold; font-size: 12px; }
+
+.stack-values {
+  max-height: 60px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.stack-values::-webkit-scrollbar { width: 3px; }
+.stack-values::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+.stack-entry {
+  color: #8BE9FD;
+  font-size: 10px;
+  font-family: monospace;
+  background: #0a0a0a;
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.stack-entry:empty { display: none; }
+
+.timer-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  background: #111;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid #1a1a1a;
+}
+
+.timer-item span:first-child {
+  color: #777;
+  font-size: 10px;
+}
+
+.timer-value { font-weight: bold; font-size: 11px; }
+.timer-value.delay { color: #FFB86C; }
+.timer-value.sound { color: #FF5555; }
+
+.opcode-log {
+  max-height: 80px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.opcode-log::-webkit-scrollbar { width: 3px; }
+.opcode-log::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+.log-entry {
+  color: #444;
+  font-size: 10px;
+  font-family: monospace;
+  background: #0a0a0a;
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.log-entry:empty { display: none; }
+.log-entry.log-latest { color: #F1FA8C; font-weight: bold; background: #1a1a1a; }
+
+#mini-canvas {
+  border: 1px solid #1a1a1a;
+  width: 128px;
+  height: 64px;
+  image-rendering: pixelated;
+  display: block;
+  border-radius: 4px;
+  background: #000;
+}
+
+/* ───────── FPS COUNTER ───────── */
+
+#fps-counter {
+  color: #555;
+  font-size: 12px;
+  margin-left: auto;
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <button id="debug-btn">Debug ▸</button>
+  <button id="load-rom-btn">Load ROMs</button>
+  <input type="file" id="rom-file-input" accept=".ch8" multiple>
+  <select id="rom-select">
+    <option value="">— Select ROM —</option>
+  </select>
+  <button id="reset-btn">Reset</button>
+  <button id="pause-btn">Pause</button>
+  <button id="step-btn">Step</button>
+  <span id="fps-counter">60 FPS</span>
+  <span id="status-text">Ready</span>
+  <span id="sound-indicator">SOUND: OFF</span>
+</div>
+
+<div class="content-area">
+  <div class="display-area">
+    <div id="drop-zone">
+      <canvas id="pantalla" width="640" height="320"></canvas>
+    </div>
+    <div class="key-hint">
+      1:<span>1</span> 2:<span>2</span> 3:<span>3</span> C:<span>4</span>&nbsp;&nbsp;
+      4:<span>Q</span> 5:<span>W</span> 6:<span>E</span> D:<span>R</span>&nbsp;&nbsp;
+      7:<span>A</span> 8:<span>S</span> 9:<span>D</span> E:<span>F</span>&nbsp;&nbsp;
+      A:<span>Z</span> 0:<span>X</span> B:<span>C</span> F:<span>V</span>
+    </div>
+  </div>
+
+  <div id="debugger-panel" aria-hidden="true">
+    <div class="dbg-section">
+      <div class="dbg-section-title">Registers V0-VF</div>
+      <div class="reg-grid" id="reg-grid"></div>
+    </div>
+    <div class="dbg-section">
+      <div class="dbg-section-title">Special Purpose</div>
+      <div class="spec-regs">
+        <div class="spec-item">
+          <span class="spec-label">I</span>
+          <span class="spec-value" id="reg-i">0x0000</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">PC</span>
+          <span class="spec-value" id="reg-pc">0x0200</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">SP</span>
+          <span class="spec-value" id="reg-sp">0x00</span>
+        </div>
+      </div>
+    </div>
+    <div class="dbg-section">
+      <div class="dbg-section-title">Timers</div>
+      <div class="timer-item">
+        <span>Delay</span>
+        <span class="timer-value delay" id="timer-delay">0</span>
+      </div>
+      <div class="timer-item">
+        <span>Sound</span>
+        <span class="timer-value sound" id="timer-sound">0</span>
+      </div>
+    </div>
+    <div class="dbg-section">
+      <div class="dbg-section-title">Stack</div>
+      <div class="stack-values" id="stack-values"></div>
+    </div>
+    <div class="dbg-section">
+      <div class="dbg-section-title">Display Preview</div>
+      <canvas id="mini-canvas" width="64" height="32"></canvas>
+    </div>
+    <div class="dbg-section">
+      <div class="dbg-section-title">Opcode Log</div>
+      <div class="opcode-log" id="opcode-log-values"></div>
+    </div>
+  </div>
+</div>
+
+<script src="roms/roms-data.js"></script>
+<script src="chip8.js"></script>
+<script src="renderer.js"></script>
+<script src="sound.js"></script>
+<script src="debugger.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

@@ -12,6 +12,11 @@ const Navbar = () => {
   }, []);
 
   const handleNavClick = () => setMenuOpen(false);
+  
+const handleNavcv = () => {
+  const pdfURL = `${import.meta.env.BASE_URL}curriculum/C_Matias_Pizarro_WebDev.pdf`;
+  window.open(pdfURL, "_blank");
+};
 
   return (
     <nav className={`navbar navbar-expand-md ${scrolled ? "scrolled" : ""}`}>
@@ -50,7 +55,7 @@ const Navbar = () => {
               <a href="#work" className="nav-link" onClick={handleNavClick}>Proyectos</a>
             </li>
           </ul>
-          <button className="nav-cta" onClick={handleNavClick}>Curriculum</button>
+          <button className="nav-cta" onClick={handleNavcv}>Curriculum</button>
         </div>
 
       </div>

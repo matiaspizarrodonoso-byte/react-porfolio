@@ -4,7 +4,7 @@ import Hero from "./assets/secciones/hero/Hero";
 import About from "./assets/secciones/about/About";
 import WorkExperience from "./assets/secciones/WorkExperience/WorkExperience";
 import "./App.css";
-
+import Chip8Emulator from "./components/Chip8Emulator";
 function App() {
   const [mounted, setMounted] = useState(false);
 
