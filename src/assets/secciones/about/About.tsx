@@ -39,7 +39,7 @@ const About = () => {
           </div>
           <div className="stat-card">
             <span className="stat-number">∞</span>
-            <span className="stat-label">Coffee Consumed</span>
+            <span className="stat-label">CAFÉ</span>
           </div>
         </div>
       </div>
